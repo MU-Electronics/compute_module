@@ -1,5 +1,27 @@
 # Setting up the Ethernet
 Below goes through how to setup the ethernet interface
+
+### Setting up te hardware
+We can setup the ethernet hardware by connect the following pins to the following ports.
+| ENC28j60 | Compute Module IO Board |
+
+| ------------- |:-------------:|
+
+| CE0 | GPIO8 |
+
+| MISO | GPIO9 |
+
+| MOSI | GPIO10 |
+
+| SCK | GPIO11 |
+
+| Interrupt | GPIO25 |
+
+| 3.3V | 3.3V |
+
+| GND | GND |
+
+
 #### Login as root
 This just makes thing simplier
 ```
