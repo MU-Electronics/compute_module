@@ -25,17 +25,83 @@ http://sysprogs.com/files/gnutoolchains/raspberry/raspberry-gcc4.9.2-r4.exe
 
 Read more here: http://gnutoolchains.com/raspberry/
 
+## Update sys-root
+Navigate to C:\SysGCC\Raspberry\TOOLS
+
+Run "UpdateSysRoot.bat" and click the "select" button.
+
+Select "New Connection" and fill in the relivent info
+
+  * Host: IP address of raspberry pi
+  * Username: pi
+  * Password: raspberry
+  * Then click connect
+
+Then click Syncronise; This will take awhile!
+
+__Remember to re-synchronize sysroot after installing new libraries on your device or after changing the used image.__
+
 ## Compile Qt libs 
-http://visualgdb.com/tools/QtCrossTool/
+Get the qt source
+```
+cd C:\SysGCC\Raspberry
+git clone https://github.com/qt/qt5.git
+cd qt5
+git submodules init
+git submodule update
+```
+
+Open MinGW32 bash and run the below
+```
+C:\MinGW\msys\1.0\msys.bat
+
+which arm-linux-gnueabihf-gcc
+```
+
+Open the "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi-g++\qmake.conf" file and replace all occurences of arm-linux-gnueabi- with arm-linux-gnueabihf-
+For Example:
+  *  arm-linux-gnueabi-gcc becomes arm-linux-gnueabihf-gcc
+  *  arm-linux-gnueabi-g++ becomes arm-linux-gnueabihf-g++
+
+Open the "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\win32-g++\qmake.conf" file and add "-U\_\_STRICT_ANSI\_\_" to CXXFLAGS.
+For Example:
+  * $$QMAKE_CFLAGS becomes $$QMAKE_CFLAGS -U\_\_STRICT_ANSI\_\_
+
+Now we can build the Windows tools. Create a directory (e.g. qt-build) and run the configuration script from there:
+```
+mkdir ../qt-build
+
+cd ../qt-build
+
+../qt5/configure -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -opengl es2 -device linux-rasp-pi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5
+```
+
+```
+
+./configure -skip qtscript -platform win32-g++ -xplatform linux-arm-gnueabihf-g++ -release -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license
+
+
+make && make install
+```
+
+
 
 ## Configuring Qt creatpr
 
 ### Add tool chain
+Qt -> Tools -> Options -> Build & Run -> Tool Chain
+Add-> GCC -> Select C:\SysGCC\Raspberry\bin\arm-linux-gnueabihf-g++.exe
 
 ### Adding Qt version
 
 ### Add linux (rasberry pi) device 
+Qt -> Tools -> Options -> Devices 
+Add -> Generic Linux Device
 
+  * Identify: Raspberry Pi
+  * IP: 192.168.0.108
+  * Username: pi
+  * Password: raspberry
 
 ## Configuring project
 
