@@ -16,7 +16,7 @@ hash -r
 ```
 sudo apt-get install git-core
 ```
-If you get any errors run the below
+If you get any errors run the below and re-run the above command
 ```
 sudo apt-get update
 sudo apt-get upgrade
