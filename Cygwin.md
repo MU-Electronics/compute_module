@@ -46,5 +46,6 @@ apt-cyg install python
 apt-cyg install python-setuptools
 apt-cyg install rsync
 apt-cyg install ncurses
+apt-cyg install gdb
 ```
 

@@ -5,8 +5,8 @@ Qt creator can remotely deploy the compiled application to the
 
 raspberry pi.
 
-## Mac / Linux
-This will not work on mac / linux please referr to the mac / linux 
+## Windows
+This will not work on windows please referr to the mac or QtRBP version
 
 guide.
 
@@ -19,16 +19,13 @@ Ensure the raspberry pi has networking capabilities. Adding
 etherent docs can be found in this repo.
 Take note of the IP address of the device.
 
-## Install a toolchain
-Download the following toolchain and install
-http://sysprogs.com/files/gnutoolchains/raspberry/raspberry-gcc4.9.2-r4.exe
+## Install toolchain
 
-Read more here: http://gnutoolchains.com/raspberry/
 
 ## Compile Qt libs 
-http://visualgdb.com/tools/QtCrossTool/
 
-## Configuring Qt creatpr
+
+## Configuring Qt creator
 
 ### Add tool chain
 
