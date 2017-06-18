@@ -5,19 +5,24 @@ Qt creator can remotely deploy the compiled application to the
 
 raspberry pi.
 
-## Mac / Linux
-This will not work on mac / linux please referr to the mac / linux 
+## Pre-checks
+### Mac / Linux
+This will not work on mac / linux please referr to the mac / linux guide.
 
-guide.
-
-## Enable SSH
+### Enable SSH on Pi
 Ensure ssh is enabled which can be found in the repo
 
-## Etherent support
+### Etherent support on Pi
 Ensure the raspberry pi has networking capabilities. Adding 
 
 etherent docs can be found in this repo.
 Take note of the IP address of the device.
+
+## Install depends
+  * Supported compiler (Visual Studio 2012 or later, MinGW-builds gcc 4.9 or later)
+  * Perl version 5.12 or later   [http://www.activestate.com/activeperl/]
+  * Python version 2.7 or later  [http://www.activestate.com/activepython/]
+  * Ruby version 1.9.3 or later  [http://rubyinstaller.org/]
 
 ## Install a toolchain
 Download the following toolchain and install
@@ -26,7 +31,7 @@ http://sysprogs.com/files/gnutoolchains/raspberry/raspberry-gcc4.9.2-r4.exe
 Read more here: http://gnutoolchains.com/raspberry/
 
 ## Update sys-root
-Navigate to C:\SysGCC\Raspberry\TOOLS
+Navigate to "C:\SysGCC\Raspberry\TOOLS"
 
 Run "UpdateSysRoot.bat" and click the "select" button.
 
@@ -41,8 +46,8 @@ Then click Syncronise; This will take awhile!
 
 __Remember to re-synchronize sysroot after installing new libraries on your device or after changing the used image.__
 
-## Compile Qt libs 
-Get the qt source
+## Building the Source
+### Get qt source
 ```
 cd C:\SysGCC\Raspberry
 git clone https://github.com/qt/qt5.git
@@ -51,13 +56,13 @@ git submodules init
 git submodule update
 ```
 
-Open MinGW32 bash and run the below
+### Ensure compile present
+open "C:\MinGW\msys\1.0\msys.bat" and run
 ```
-C:\MinGW\msys\1.0\msys.bat
-
 which arm-linux-gnueabihf-gcc
 ```
 
+### Setup qmake file
 Open the "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi-g++\qmake.conf" file and replace all occurences of arm-linux-gnueabi- with arm-linux-gnueabihf-
 For Example:
   *  arm-linux-gnueabi-gcc becomes arm-linux-gnueabihf-gcc
@@ -67,6 +72,7 @@ Open the "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\win32-g++\qmake.conf" file and 
 For Example:
   * $$QMAKE_CFLAGS becomes $$QMAKE_CFLAGS -U\_\_STRICT_ANSI\_\_
 
+### Build the source
 Now we can build the Windows tools. Create a directory (e.g. qt-build) and run the configuration script from there:
 ```
 mkdir ../qt-build
@@ -77,16 +83,21 @@ cd ../qt-build
 ```
 
 ```
-
 ./configure -skip qtscript -platform win32-g++ -xplatform linux-arm-gnueabihf-g++ -release -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license
+```
 
+### Check build success
+run the below
+```
+qtbase/bin/qmake -v
+```
 
+### Make the source
+```
 make && make install
 ```
 
-
-
-## Configuring Qt creatpr
+## Configuring Qt creator
 
 ### Add tool chain
 Qt -> Tools -> Options -> Build & Run -> Tool Chain
