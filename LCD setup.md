@@ -1,5 +1,14 @@
 # Setting up the LCD Display
 Setting up the offical raspberry pi 7" LCD can be done simply by following the below. 
+
+### Setup LCD hardware side
+Connect these pins together with jumper wires:
+```
+GPIO0 - CD1_SDA
+GPIO1 - CD1_SCL
+```
+Then connect DISP1 port to the LCD display
+
 #### Login as root
 This just makes thing simplier
 ```
