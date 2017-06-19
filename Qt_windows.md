@@ -46,6 +46,19 @@ Then click Syncronise; This will take awhile!
 
 __Remember to re-synchronize sysroot after installing new libraries on your device or after changing the used image.__
 
+## Setup msys2
+Open "C:\msys64\msys2.exe" and run
+```
+pacman -S make perl pkg-config diffutils
+export PATH=$PATH:/c/MinGW/mingw32/bin
+export PATH=$PATH:/c/Python27
+export PATH=$PATH:/c/SysGCC/Raspberry/bin
+export PATH=$PATH:/c/MinGW/bin/
+mkdir -p /c/SysGCC/Raspberry/qt-build
+cd /c/SysGCC/Raspberry/qt-build
+```
+^^ Keep this terminal open we'll be using it through out.
+
 ## Building the Source
 ### Get qt source
 ```
@@ -57,9 +70,13 @@ git submodule update
 ```
 
 ### Ensure compile present
-open "C:\MinGW\msys\1.0\msys.bat" and run
+Run the below in the terminal we opened before
 ```
 which arm-linux-gnueabihf-gcc
+```
+Check we have gcc.exe
+```
+C:/MinGW/bin/gcc.exe
 ```
 
 ### Setup qmake file
@@ -68,23 +85,12 @@ For Example:
   *  arm-linux-gnueabi-gcc becomes arm-linux-gnueabihf-gcc
   *  arm-linux-gnueabi-g++ becomes arm-linux-gnueabihf-g++
 
-Open the "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\win32-g++\qmake.conf" file and add "-U\_\_STRICT_ANSI\_\_" to CXXFLAGS.
-For Example:
-  * $$QMAKE_CFLAGS becomes $$QMAKE_CFLAGS -U\_\_STRICT_ANSI\_\_
-
 ### Build the source
 Now we can build the Windows tools. Create a directory (e.g. qt-build) and run the configuration script from there:
 ```
-mkdir ../qt-build
-
-cd ../qt-build
-
-../qt5/configure -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -opengl es2 -device linux-rasp-pi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5
+"c:/development/qt_versions/qt5/configure" -skip qtscript -platform win32-g++ -xplatform linux-arm-gnueabihf-g++ -release -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license
 ```
 
-```
-./configure -skip qtscript -platform win32-g++ -xplatform linux-arm-gnueabihf-g++ -release -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license
-```
 
 ### Check build success
 run the below
