@@ -51,7 +51,8 @@ or similar at https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/
 Extract the content for "tools" directory to "C:/SysGCC/mingw32"
 
 ## Update sys-root
-The compiling PC needs to have a copy of the some of the pi's content. As such we are going to take a local copy of these file. To do this navigate to "C:\SysGCC\Raspberry\TOOLS"
+The compiling PC needs to have a copy of the some of the pi's content. As such we are going to take a local copy of these file. To do this navigate to:
+>"C:\SysGCC\Raspberry\TOOLS"
 
 Run "UpdateSysRoot.bat" and click the "select" button.
 
@@ -109,28 +110,44 @@ cd ../
 ```
 
 ### Setup qmake file 
-Qt's qmake.config files need some tweaking to be able to cross compile on windows. The below documents what i did but not all if any may be neccessary. I need to go through this guide form scratch to identify what is required and what was not.
+Qt's qmake.config files need some tweaking to be able to cross compile on windows. The below documents what i did but not all if any may be neccessary. 
+
+*I need to go through this guide form scratch to identify what is required and whats was not.*
 
 #### Edit 1
-Copy the folder "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi-g++f" and past into "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi**hf**-g++"
+Copy the folder below
+> "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi-g++f" 
 
-Open the file "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi**hf**-g++\qmake.conf" and replace all occurences of arm-linux-gnueabi- with arm-linux-gnueabihf-
+Past into 
+>"C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabi**hf**-g++"
+
+Open the file 
+> "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\linux-arm-gnueabihf-g++\qmake.conf" 
+
+Replace all occurences of **arm-linux-gnueabi-** with **arm-linux-gnueabihf-**
 For Example:
   *  arm-linux-gnueabi-gcc becomes arm-linux-gnueabihf-gcc
   *  arm-linux-gnueabi-g++ becomes arm-linux-gnueabihf-g++
 
 #### Edit 2
-Open the "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\win32-g++\qmake.conf" file and add "-U\_\_STRICT_ANSI\_\_" to QMAKE_CFLAGS.
+Open the below file
+> "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\win32-g++\qmake.conf" 
+
+Add **"-U\_\_STRICT_ANSI\_\_"** to QMAKE_CFLAGS.
+
 For Example:
   * QMAKE_CFLAGS += -fno-keep-inline-dllexport **becomes** QMAKE_CFLAGS += -fno-keep-inline-dllexport -U\_\_STRICT_ANSI\_\_
 
 #### Edit 3
-This is most likely not required!
-Edit "C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\devices\linux-rasp-pi3-g++\qmake.conf"
-Replace: 
-QMAKE_LIBS_OPENGL_ES2   = $${VC_LINK_LINE} -lGLESv2
+This is most likely not required! But i edited 
+>"C:\SysGCC\Raspberry\qt5\qtbase\mkspecs\devices\linux-rasp-pi3-g++\qmake.conf"
+
+Replace the below: 
+> QMAKE_LIBS_OPENGL_ES2   = $${VC_LINK_LINE} -lGLESv2
+
 With:
-QMAKE_LIBS_OPENGL_ES2   = $${VC_LINK_LINE} -lGLESv2 -lEGL
+
+>QMAKE_LIBS_OPENGL_ES2   = $${VC_LINK_LINE} -lGLESv2 -lEGL
 
 ### Prep the source / enviorment
 Now we can build the Windows tools for raspberry pi 3. 
@@ -162,9 +179,25 @@ make install
 ```
 
 Note: Try using jom to speed up make (multi-core)
+
+### Upload the compiled libraries to the Pi
+Navigate to the below and run SmarTTY.exe.
+> "C:\SysGCC\Raspberry\TOOLS\PortableSmartty" 
+
+Then select the raspberry pi that you want to run qt. After than run the following in the terminal shown
 ```
-C:\Qt\Tools\QtCreator\bin\jom.exe -j 12 -f Makefile 
+cd /usr/local
+sudo mkdir qt5
+sudo chown pi qt5
 ```
+
+The select SCP -> Upload directory
+  *  Local directory: Could be **either** of the two below (only one will exist)
+     > C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\msys64\usr\local\qt5
+    C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5
+  * Remote directory: /usr/local/qt5
+
+Then click upload! This will take awhile as the Qt libraries are ~250mb.
 
 ## Configuring Qt creator
 
