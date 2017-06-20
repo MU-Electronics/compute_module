@@ -101,6 +101,7 @@ cd qt5
 git submodules init
 git submodule update
 git checkout 5.9.1
+git submodule update --init
 ```
 
 ### Setup qmake file 
@@ -133,11 +134,15 @@ Now we can build the Windows tools for raspberry pi 3.
 Run the configuration script:
 @todo update below path with "C:/SysGCC/Raspberry/qt5/configure"
 ```
-"c:/development/qt_versions/qt5/configure" -skip qtscript -platform win32-g++ -release -device linux-rasp-pi3-g++ -sysroot c:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=c:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license
+"c:/development/qt_versions/qt5/configure" -skip qtscript -platform win32-g++ -release -device linux-rasp-pi3-vc4-g++ -sysroot c:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=c:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license -qt-xcb
 ```
 
 ### Check build success
-The above may error but just ignore it, so long as we have qmake we're good. To check we have qmake run the below.
+The above may error with the below
+```
+qtbase/bin/qmake -v
+```
+but just ignore it, so long as we have qmake we're good. To check we have qmake run the below.
 ```
 qtbase/bin/qmake -v
 ```
