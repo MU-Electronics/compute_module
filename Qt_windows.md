@@ -102,6 +102,9 @@ git submodules init
 git submodule update
 git checkout 5.9.1
 git submodule update --init
+cd qtwebengine
+git submodule update --init
+cd ../
 ```
 
 ### Setup qmake file 
@@ -138,9 +141,9 @@ Run the configuration script:
 ```
 
 ### Check build success
-The above may error with the below
+The above **may** error with the below
 ```
-qtbase/bin/qmake -v
+Checking for valid makespec... ERROR: Cannot compile a minimal program. The toolchain or QMakeSpec is broken.
 ```
 but just ignore it, so long as we have qmake we're good. To check we have qmake run the below.
 ```
