@@ -75,6 +75,7 @@ pacman -S make perl pkg-config diffutils
 export PATH=$PATH:/c/SysGCC/mingw32/bin
 export PATH=$PATH:/c/Python27
 export PATH=$PATH:/c/SysGCC/Raspberry/bin
+export PATH=$PATH:/c/Qt/Tools/QtCreator/bin
 mkdir -p /c/SysGCC/Raspberry/qt-build
 cd /c/SysGCC/Raspberry/qt-build
 ```
@@ -131,7 +132,7 @@ QMAKE_LIBS_OPENGL_ES2   = $${VC_LINK_LINE} -lGLESv2
 With:
 QMAKE_LIBS_OPENGL_ES2   = $${VC_LINK_LINE} -lGLESv2 -lEGL
 
-### Build the source
+### Prep the source / enviorment
 Now we can build the Windows tools for raspberry pi 3. 
 
 Run the configuration script:
@@ -140,7 +141,7 @@ Run the configuration script:
 "c:/development/qt_versions/qt5/configure" -skip qtscript -platform win32-g++ -release -device linux-rasp-pi3-vc4-g++ -sysroot c:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=c:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -nomake examples -opensource -confirm-license -qt-xcb
 ```
 
-### Check build success
+### Check enviorment is ready 
 The above **may** error with the below
 ```
 Checking for valid makespec... ERROR: Cannot compile a minimal program. The toolchain or QMakeSpec is broken.
@@ -150,14 +151,19 @@ but just ignore it, so long as we have qmake we're good. To check we have qmake 
 qtbase/bin/qmake -v
 ```
 
-### Make the source
-Now to compile the source code for the rasberry pi
+### Build and install the source
+Now to compile the source code for the rasberry pi, this will take a while (5-6 hours); 
 ```
 make
 ```
 After the above has finished run the below
 ```
 make install
+```
+
+Note: Try using jom to speed up make (multi-core)
+```
+C:\Qt\Tools\QtCreator\bin\jom.exe -j 12 -f Makefile 
 ```
 
 ## Configuring Qt creator
