@@ -1,21 +1,23 @@
 # Qt remote deployment and debugging
 
-When create applications on Qt using the raspberry pi 3 platform, Qt creator can remotely deploy the compiled application to the raspberry pi. To do this first a cross-compiler needs to be installed along with a compiled version of Qt.
+When create applications on Qt for the raspberry pi 3 platform compute module 3 in particular is what we use; Qt creator can locally compile the application and remotely deploy the compiled application to the raspberry pi. This speeds up development massively especially when working with hardware (ADC, DAC etc).
+
+This guide will take you step by step how to setup your windows environment to cross comply and remotely deploy to your pi3.
 
 ## Pre-checks
 
 ### Mac / Linux
 
-This guide will not work on mac / linux please referr to the mac / linux guide.
+This guide will not work on mac / linux please refer to the mac / linux guide which will be wrote and stored in this repo.
 
 ### Enable SSH on Pi
 
 Ensure ssh is enabled on the pi, a guide to this can be found in the repo.
 
-### Etherent support on Pi
+###  Networking capabilities on Pi
 
-Ensure the raspberry pi has networking capabilities. A guide to adding ethernet can be found in this repo. 
-Boot up the PI and run the below, taking note of the IP address of the device.
+Ensure the raspberry pi has networking capabilities. A guide to adding Ethernet to the CM3 can be found in this repo. 
+Boot up the PI and run the below, taking note of the IP address for the device.
 
 ```bash
 ifconfig
@@ -322,6 +324,21 @@ While in the same window as the previous step (8.1) go to the "Kits" tab and cli
 ### 9.1 Setup build
 
 ### 9.2 Setup deploy
+
+
+
+## 10.0 Disclaimer 
+
+This guide was initially wrote as notes and not as a step by step guide, therefore there may be some stages that are not required. 
+
+This guide also take snippets of knowledge and  code from all over the internet. I suggest reading the below links if you have any errors, want to customise the above or just learn more.
+
+* https://visualgdb.com/tutorials/raspberry/qt/embedded/
+* https://forum.qt.io/topic/68381/cross-compile-qt-windows-to-raspberry-3
+* https://github.com/sdt/docker-raspberry-pi-cross-compiler
+* https://www.jaredwolff.com/toolchains/
+* https://forum.qt.io/topic/75682/has-anyone-successfully-built-qt-from-source-recently-on-a-pi
+* https://github.com/Kukkimonsuta/rpi-buildqt
 
 
 
