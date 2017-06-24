@@ -14,6 +14,10 @@ This guide will not work on mac / linux please refer to the mac / linux guide wh
 
 Ensure ssh is enabled on the pi, a guide to this can be found in the repo.
 
+### LCD Display
+
+If your application ha a gui you'll need an lcd, this repo has a guide to getting the official pi 7" touch screen working.
+
 ###  Networking capabilities on Pi
 
 Ensure the raspberry pi has networking capabilities. A guide to adding Ethernet to the CM3 can be found in this repo. 
@@ -41,7 +45,7 @@ sudo raspi-config
 # uncomment deb-src line
 sudo nano /etc/apt/sources.list
 
-# Linker tries to link again installed qt 5.3 so remove it
+# Linker tries to link again installed qt 5.3 so remove it we want 5.8
 sudo su
 apt-get remove libqt5*
 exit
@@ -51,16 +55,31 @@ sudo su
 apt-get remove gstreamer*
 exit
 
-# install qt dependencies
+# update
 sudo apt-get update
-sudo apt-get build-dep qt4-x11
-sudo apt-get build-dep libqt5gui5
-sudo apt-get install libudev-dev libinput-dev libts-dev libxcb-xinerama0-dev libxcb-xinerama0 libsmbclient-dev libssh-dev libv4l-dev libboost1.55-all-dev libbz2-dev libgl1-mesa-dri qtdeclarative5-dev libxcb1 libxcb1-dev
+sudo apt-get upgrade
+
+# install qt dependencies @todo remove packages that are not required!
+# Possable not required: sudo apt-get build-dep qt4-x11
+# Possable not required: sudo apt-get build-dep libqt5gui5
+# Possable not required: libraspberrypi-dev qtdeclarative5-dev libxcb1 libxcb1-dev
+# Possable not required: sudo apt-get install -y apt-transport-https
+# libgl1-mesa-dev
+sudo apt-get install libudev-dev libinput-dev libts-dev libxcb-xinerama0-dev libxcb-xinerama0 libsmbclient-dev libssh-dev libv4l-dev libboost1.55-all-dev libbz2-dev libruby2.1 libscsynth1 libxcb-icccm4 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 ruby2.1 rubygems-integration supercollider-server xfonts-100dpi xfonts-75dpi xfonts-scalable libraspberrypi-dev
+
+sudo apt-get install libfontconfig1-dev libdbus-1-dev libfreetype6-dev libudev-dev libicu-dev libsqlite3-dev libxslt1-dev libssl-dev libasound2-dev libavcodec-dev libavformat-dev libswscale-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev gstreamer-tools gstreamer0.10-plugins-good gstreamer0.10-plugins-bad libraspberrypi-dev libpulse-dev libx11-dev libglib2.0-dev libcups2-dev freetds-dev libsqlite0-dev libpq-dev libiodbc2-dev libmysqlclient-dev firebird-dev libpng12-dev libjpeg9-dev libgst-dev libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-glx0-dev libxi-dev libdrm-dev libssl-dev libxcb-xinerama0 libxcb-xinerama0-dev
+
+sudo apt-get dist-upgrade
+sudo apt-get install raspi-gpio
+sudo apt-get install xcompmgr libgl1-mesa-dri
+
+# for gui if using command version of jessie lite
+#sudo apt-get --no-install-recommends install xserver-xorg xserver-xorg-video-fbdev xinit pciutils xinput xfonts-100dpi #xfonts-75dpi xfonts-scalable
 
 # fix old egl
-sudo rm /usr/lib/arm-linux-gnueabihf/libEGL.so.1.0.0 /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2.0.0
-sudo ln -s /opt/vc/lib/libEGL.so /usr/lib/arm-linux-gnueabihf/libEGL.so.1.0.0
-sudo ln -s /opt/vc/lib/libGLESv2.so /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2.0.0
+#sudo rm /usr/lib/arm-linux-gnueabihf/libEGL.so.1.0.0 /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2.0.0
+#sudo ln -s /opt/vc/lib/libEGL.so /usr/lib/arm-linux-gnueabihf/libEGL.so.1.0.0
+#sudo ln -s /opt/vc/lib/libGLESv2.so /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2.0.0
 ```
 
 ## 2.0 Install depends on local machine
@@ -103,6 +122,17 @@ Select "New Connection" and fill in the relevant info
 - Then click connect
 
 Then click then "Syncronise"; This will take awhile!
+
+**Note:**  The above program can be very slow and sometimes crash half way through your hour download. You can use other programs such as WinSCP (remembering to use scp over ftp etc). WinSCP can download multiple files at once making it quite quick at downloading the required files. WinSCP also has a synchronise feature that can compare timestamps on your pi files with your locally sync files, this means when u update you pi you dont have to re-sync everything, P.S massive time saver!
+
+ Synchronise the below folders:
+
+> * /lib to C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\lib
+> * /usr/include -> C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\lib\include 
+> * /usr/lib -> C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\lib\lib
+> * /usr/local/include -> C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\include 
+> * /usr/local/lib -> C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\lib
+> * /opt to C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\opt
 
 __Remember to re-synchronize sysroot after installing new libraries onto the pi or after changing the used image.__
 
@@ -179,6 +209,23 @@ For Example:
 
 > QMAKE_CXXFLAGS = $$QMAKE_CFLAGS **-U\_\_STRICT_ANSI\_\_**
 
+7.2.3 Edit 3
+
+Now we need to make sure that the device configuration file links are relative to your PC and not the pi for compiling
+
+Go to file: 
+
+> qt-everywhere-opensource-src-5.8.0\qtbase\mkspecs\devices\linux-rpi3-g++\qmake.conf
+
+Edit the following files NOTE: Ensure VC_LIBRARY_PATH and VC_INCLUDE_PATH lines are above QMAKE_LFLAGS comment out the existing files
+
+> VC_LIBRARY_PATH         = $$[QT_SYSROOT]/opt/vc/lib
+> VC_INCLUDE_PATH         = $$[QT_SYSROOT]/opt/vc/include
+>
+> QMAKE_LFLAGS           += -L$${VC_LIBRARY_PATH}
+>
+> VC_LINK_LINE            = -L$${VC_LIBRARY_PATH}
+
 ### 7.3 Prep the source / environment
 
 Now we can build the Windows tools for raspberry pi 3 most noticeable "qmake", run the configuration script:
@@ -200,7 +247,7 @@ qtbase/bin/qmake -v
 Now we re-run the configuration script but now we add the device information; rum the below command:
 
 ```bash
-"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -device linux-rpi3-vc4-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -qpa xcb -qt-pcre -qt-libpng -skip qtscript
+"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -device linux-rpi3-vc4-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -qpa xcb -qt-pcre -qt-libpng -skip qtscript -opengl es2
 ```
 
 ### 7.5 Build and install the source
@@ -233,11 +280,18 @@ Then select the raspberry pi that you want to run qt. After than run the followi
 
 ```bash
 # create qt install dir
-sudo mkdir -p /usr/local/qt5.8
-sudo chown pi:pi /usr/local/qt5.8
+sudo mkdir -p /usr/local/qt5
+sudo chown pi:pi /usr/local/qt5
 
 # register the lib directory in ld
-echo /usr/local/qt5.8/lib | sudo tee /etc/ld.so.conf.d/qt5.8.conf
+echo /usr/local/qt5/lib | sudo tee /etc/ld.so.conf.d/qt5.conf
+
+# Ensure qt plugins load
+export QT_PLUGIN_PATH=/usr/local/qt5/plugins
+export DISPLAY=:0
+
+# Advanced -> Expand file options
+sudo raspi-config
 ```
 
 The select SCP -> Upload directory
@@ -245,7 +299,7 @@ The select SCP -> Upload directory
 > - Local directory: C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5
 >
 >
-> - Remote directory: /usr/local/qt5.8
+> - Remote directory: /usr/local/qt5
 > - Select "Invoke SCP file-by-file(slow)" as I had trouble with files such as wav, bin etc when using "file on fly TAR". You could however just remove the example projects with these in and upload using the faster method then upload these later if required.
 
 Then click upload! This will take awhile as the Qt libraries are rather large even when compiled the examples along are 100mb!
