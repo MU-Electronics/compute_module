@@ -231,22 +231,6 @@ Edit the following lines, NOTE: Ensure VC_LIBRARY_PATH and VC_INCLUDE_PATH lines
 >
 > VC_LINK_LINE            = -L$${VC_LIBRARY_PATH}
 
-### 7.3 Prep the source / environment
-
-Now we can build the Windows tools for raspberry pi 3 most noticeable "qmake", run the configuration script:
-
-```bash
-"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -opengl es2 -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5
-```
-
-#### 7.3.1 Check qmake
-
-The above **may** error but just ignore it, so long as we have qmake we're good. To check we have qmake run the below:
-
-```bash
-qtbase/bin/qmake -v
-```
-
 ### 7.4 Reconfigure the project
 
 Now we re-run the configuration script but now we add the device information; rum the below command:
@@ -255,7 +239,9 @@ Now we re-run the configuration script but now we add the device information; ru
 "../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -debug -qt-zlib -qt-libpng -qt-libjpeg -qt-freetype -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -skip qtscript -opengl es2 -no-pch -no-use-gold-linker -qt-pcre -qpa xcb -opensource
 ```
 
-"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -static -nomake tools -make libs -qt-zlib -qt-libpng -qt-libjpeg -qt-freetype -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -skip qtscript -opengl es2 -no-pch -no-use-gold-linker -qt-pcre -qpa xcb
+```bash
+"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -debug -qt-zlib -qt-libpng -qt-libjpeg -qt-freetype -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -skip qtscript -opengl es2 -no-pch -no-use-gold-linker -qt-pcre -qpa eglfs -opensource
+```
 
 ### 7.5 Build and install the source
 
@@ -293,18 +279,15 @@ sudo chown pi:pi /usr/local/qt5
 # register the lib directory in ld
 echo /usr/local/qt5/lib | sudo tee /etc/ld.so.conf.d/qt5.conf
 
-# Ensure qt plugins load to be set in /etc/profile
-export QT_PLUGIN_PATH=/usr/local/qt5/plugins
-export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
-
 # give permissions to opt so qt can upload to it
 sudo chown pi:pi /opt
 
-# Advanced -> Expand file options
-sudo raspi-config
-
 # make font dir
 sudo mkdir -p /usr/local/qt5/lib/fonts
+sudo chown pi:pi /usr/local/qt5/lib/fonts
+
+# Advanced -> Expand file options
+sudo raspi-config
 ```
 
 The select SCP -> Upload directory
