@@ -315,7 +315,29 @@ The select SCP -> Upload directory
 
 Then click upload! This will take awhile as the Qt libraries are rather large even when compiled the examples along are 100mb!
 
-### 7.7 Upload fonts for Qt
+### 7.7 Setting environment variables
+
+Now we need to setup some environment variables for Qt, run the below
+
+```bash
+nano /etc/profile
+```
+
+ Add the below to the bottom of the file
+
+```bash
+
+export QT_PLUGIN_PATH=/usr/local/qt5/plugins
+export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+
+export QML2_IMPORT_PATH=/usr/local/qt5/qml
+export QML_IMPORT_PATH=/usr/local/qt5/qml
+
+export PATH=${PATH}:/usr/local/qt5/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/qt5/lib
+```
+
+### 7.8 Upload fonts for Qt
 
 Qt no longer get shipped with fonts therefore your application wont be able to load any. SSH in you pi and upload all your font files to:
 
