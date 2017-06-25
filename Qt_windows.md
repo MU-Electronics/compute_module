@@ -33,7 +33,7 @@ Before starting we need to prep the pi ready for the tasks ahead.
 First run the command below and perform the following
 
 - Advanced Options -> Memory split -> 256
-- Advanced Options -> GL Driver -> G1 or G2 (Full or Fake)
+- Advanced Options -> GL Driver -> G3 No opengl (Most stable atm)
 
 ```bash
 sudo raspi-config
@@ -67,14 +67,12 @@ sudo apt-get upgrade
 # libgl1-mesa-dev
 sudo apt-get install libudev-dev libinput-dev libts-dev libxcb-xinerama0-dev libxcb-xinerama0 libsmbclient-dev libssh-dev libv4l-dev libboost1.55-all-dev libbz2-dev libruby2.1 libscsynth1 libxcb-icccm4 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 ruby2.1 rubygems-integration supercollider-server xfonts-100dpi xfonts-75dpi xfonts-scalable libraspberrypi-dev
 
-sudo apt-get install libfontconfig1-dev libdbus-1-dev libfreetype6-dev libudev-dev libicu-dev libsqlite3-dev libxslt1-dev libssl-dev libasound2-dev libavcodec-dev libavformat-dev libswscale-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev gstreamer-tools gstreamer0.10-plugins-good gstreamer0.10-plugins-bad libraspberrypi-dev libpulse-dev libx11-dev libglib2.0-dev libcups2-dev freetds-dev libsqlite0-dev libpq-dev libiodbc2-dev libmysqlclient-dev firebird-dev libpng12-dev libjpeg9-dev libgst-dev libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-glx0-dev libxi-dev libdrm-dev libssl-dev libxcb-xinerama0 libxcb-xinerama0-dev
+sudo apt-get install libfontconfig1-dev libdbus-1-dev libfreetype6-dev libudev-dev libicu-dev libsqlite3-dev libxslt1-dev libssl-dev libasound2-dev libavcodec-dev libavformat-dev libswscale-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev gstreamer-tools gstreamer0.10-plugins-good gstreamer0.10-plugins-bad libraspberrypi-dev libpulse-dev libx11-dev libglib2.0-dev libcups2-dev freetds-dev libsqlite0-dev libpq-dev libiodbc2-dev libmysqlclient-dev firebird-dev libpng12-dev libjpeg9-dev libgst-dev libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-glx0-dev libxi-dev libdrm-dev libssl-dev libxcb-xinerama0 libxcb-xinerama0-dev libxkbcommon-dev libxcb-xkb-dev libxcb-xkb1 libfontconfig1-dev
 
 sudo apt-get dist-upgrade
 sudo apt-get install raspi-gpio
-sudo apt-get install xcompmgr libgl1-mesa-dri
+sudo apt-get install xcompmgr libgl1-mesa-dri 
 
-# for gui if using command version of jessie lite
-#sudo apt-get --no-install-recommends install xserver-xorg xserver-xorg-video-fbdev xinit pciutils xinput xfonts-100dpi #xfonts-75dpi xfonts-scalable
 
 # fix old egl
 #sudo rm /usr/lib/arm-linux-gnueabihf/libEGL.so.1.0.0 /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2.0.0
@@ -140,7 +138,7 @@ __Remember to re-synchronize sysroot after installing new libraries onto the pi 
 
 Go to http://www.msys2.org/ and download msys2. Once downloaded installed the program.
 
-Open "C:\msys64\msys2.exe" and run
+Open "C:\msys64\msys2.exe" and run. 
 
 ```bash
 pacman -S make perl pkg-config diffutils
@@ -148,6 +146,9 @@ export PATH=$PATH:/c/SysGCC/mingw32/bin
 export PATH=$PATH:/c/Python27
 export PATH=$PATH:/c/SysGCC/Raspberry/bin
 export PATH=$PATH:/c/Qt/Tools/QtCreator/bin
+
+
+export QT_XKB_CONFIG_ROOT=C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\share\X11\xkb
 ```
 
 ^^ Keep this terminal open we'll be using it through out.
@@ -209,15 +210,19 @@ For Example:
 
 > QMAKE_CXXFLAGS = $$QMAKE_CFLAGS **-U\_\_STRICT_ANSI\_\_**
 
-7.2.3 Edit 3
+We can also add the c11 tags to the above to ensure compilation in c11
 
-Now we need to make sure that the device configuration file links are relative to your PC and not the pi for compiling
+> QMAKE_CXXFLAGS = $$QMAKE_CFLAGS -U\_\_STRICT_ANSI\_\_ **-std=c++11**
+
+#### 7.2.3 Edit 3
+
+Now we need to make sure that the device configuration file links are relative to your PC and not the pi for compiling.
 
 Go to file: 
 
-> qt-everywhere-opensource-src-5.8.0\qtbase\mkspecs\devices\linux-rpi3-g++\qmake.conf
+> C:\development\qt\qt_versions\qt-everywhere-opensource-src-5.8.0\\**qtbase\mkspecs\devices\linux-rpi3-g++\qmake.conf**
 
-Edit the following files NOTE: Ensure VC_LIBRARY_PATH and VC_INCLUDE_PATH lines are above QMAKE_LFLAGS comment out the existing files
+Edit the following lines, NOTE: Ensure VC_LIBRARY_PATH and VC_INCLUDE_PATH lines are above QMAKE_LFLAGS. Commenting out the existing lines
 
 > VC_LIBRARY_PATH         = $$[QT_SYSROOT]/opt/vc/lib
 > VC_INCLUDE_PATH         = $$[QT_SYSROOT]/opt/vc/include
@@ -247,8 +252,10 @@ qtbase/bin/qmake -v
 Now we re-run the configuration script but now we add the device information; rum the below command:
 
 ```bash
-"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -device linux-rpi3-vc4-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -qpa xcb -qt-pcre -qt-libpng -skip qtscript -opengl es2
+"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -debug -qt-zlib -qt-libpng -qt-libjpeg -qt-freetype -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -skip qtscript -opengl es2 -no-pch -no-use-gold-linker -qt-pcre -qpa xcb -opensource
 ```
+
+"../qt-everywhere-opensource-src-5.8.0/configure" -platform win32-g++ -xplatform linux-arm-gnueabi-g++ -release -static -nomake tools -make libs -qt-zlib -qt-libpng -qt-libjpeg -qt-freetype -device linux-rpi3-g++ -sysroot C:/SysGCC/Raspberry/arm-linux-gnueabihf/sysroot -prefix /usr/local/qt5 -device-option CROSS_COMPILE=C:/SysGCC/Raspberry/bin/arm-linux-gnueabihf- -qt-xcb -skip qtscript -opengl es2 -no-pch -no-use-gold-linker -qt-pcre -qpa xcb
 
 ### 7.5 Build and install the source
 
@@ -286,29 +293,56 @@ sudo chown pi:pi /usr/local/qt5
 # register the lib directory in ld
 echo /usr/local/qt5/lib | sudo tee /etc/ld.so.conf.d/qt5.conf
 
-# Ensure qt plugins load
+# Ensure qt plugins load to be set in /etc/profile
 export QT_PLUGIN_PATH=/usr/local/qt5/plugins
-export DISPLAY=:0
+export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+
+# give permissions to opt so qt can upload to it
+sudo chown pi:pi /opt
 
 # Advanced -> Expand file options
 sudo raspi-config
+
+# make font dir
+sudo mkdir -p /usr/local/qt5/lib/fonts
 ```
 
 The select SCP -> Upload directory
 
 > - Local directory: C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5
->
->
 > - Remote directory: /usr/local/qt5
 > - Select "Invoke SCP file-by-file(slow)" as I had trouble with files such as wav, bin etc when using "file on fly TAR". You could however just remove the example projects with these in and upload using the faster method then upload these later if required.
 
 Then click upload! This will take awhile as the Qt libraries are rather large even when compiled the examples along are 100mb!
 
+### 7.7 Upload fonts for Qt
+
+Qt no longer get shipped with fonts therefore your application wont be able to load any. SSH in you pi and upload all your font files to:
+
+> /usr/local/qt5/lib/fonts
+
+Initial fonts you could install are listed below
+
+* https://dejavu-fonts.github.io/
+* https://material.io/guidelines/resources/roboto-noto-fonts.html
+
+Don't separate the fonts into there own folder just put all the ttf files into the directory above.
+
 ## 8.0 Configuring Qt creator
 
 This stage is going to look into setting up Qt creator so you can compile your project on your windows PC and automatically upload the compiled program to your pi.
 
-### 8.1 Add Compiler
+### 8.1 Set the compiler in mk
+
+The below will remove some warning messages from QtCreator about QMakes compiler links and QCreator kits compilers being different. Go to file:
+
+> C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5\mkspecs\devices\linux-rpi3-g++\qmake.conf
+
+Add the following to the file:
+
+> QMAKE_XSPEC = C:\SysGCC\Raspberry\bin\arm-linux-gnueabihf-g++
+
+### 8.2 Add Compiler
 
 Load Qt creator and navigate to:
 
@@ -324,14 +358,14 @@ Next we will add the c++ compiler, click Add-> GCC -> C++ and fill in the form a
 > * Name: C++ Raspberry Pi
 > * Compiler Path:  C:\SysGCC\Raspberry\bin\arm-linux-gnueabihf-g++.exe
 
-### 8.2 Adding Qt version
+### 8.3 Adding Qt version
 
 While in the same window as the previous step (8.1) go to the "Qt Version" tab and click "Add"
 
 > - Version Name: Qt 5.8.0 Raspberry Pi 3
 > - qMake Location (click browse): C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5\bin\qmake.exe 
 
-### 8.3 Add  Raspberry pi device
+### 8.4 Add  Raspberry pi device
 
 - In Qt creator and navigate to:
 
@@ -353,39 +387,58 @@ While in the same window as the previous step (8.1) go to the "Qt Version" tab a
 
   > "Next -> Finished"
 
-### 8.4 Adding Debugger
+### 8.5 Adding Debugger
 
 While in the same window as the previous step (8.1) go to the "Debuggers" tab and click "Add" and fill in the form as below. If the field is not mentioned below then leave it empty or as it is.
 
 > * Name: Raspberry Debugger
 > * Path: C:\SysGCC\mingw32\bin\gdb.exe
 
-### 8.5 Adding Raspberry Pi 3 Kit
+### 8.6 Adding Raspberry Pi 3 Kit
 
 While in the same window as the previous step (8.1) go to the "Kits" tab and click "Add" and fill in the form as below. If the field is not mentioned below then leave it empty or as it is.
 
 > -  Name: rasberry pi 5.8.0
-> - Device Type: Generic Linux Device
-> - Device: Raspberry Pi  <-- We added this in step 8.3
-> - Sysroot: C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5
-> - Compiler C: C++ Raspberry Pi
-> - Compiler C++: C Raspberry Pi
-> - Debugger: Raspberry Debugger
-> - Qt Version: Qt 5.8.0 Raspberry Pi 3
+> -  Device Type: Generic Linux Device
+> -  Device: Raspberry Pi  <-- We added this in step 8.3
+> -  Sysroot: C:\SysGCC\Raspberry\arm-linux-gnueabihf\sysroot\usr\local\qt5
+> -  Compiler C: C++ Raspberry Pi
+> -  Compiler C++: C Raspberry Pi
+> -  Debugger: Raspberry Debugger
+> -  Qt Version: Qt 5.8.0 Raspberry Pi 3
 
 ## 9.0 Configuring project
 
 ### 9.1 Setup build
 
-### 9.2 Setup deploy
+Simply go to the project tab and double click "raspberry pi 5.8.0"
 
+### 9.2 Run Settings
 
+Open you project and go to 
+
+> Project -> raspberry pi 5.8.0 -> Run 
+
+Under the run section add the below to the "Arguments" text box
+
+> -platform eglfs
+
+### 9.3 Setting up pro file 
+
+For your Qt projects you'll have to add the below to the .pro file. This specifics where your compiled project will be installed on the pi when deployed.
+
+```cmake
+target.path = /opt/$${TARGET}/bin
+INSTALLS += target
+```
 
 ## 10.0 Disclaimer 
 
-This guide was initially wrote as notes and not as a step by step guide, therefore there may be some stages that are not required. 
+This guide was initially wrote as notes and not as a step by step guide, therefore there may be some stages and libs that are not required. 
 
-This guide also take snippets of knowledge and  code from all over the internet. I suggest reading the below links if you have any errors, want to customise the above or just learn more.
+Feel free to play around with the configurations of the Qt and repot back on better methods and configurations.
+
+This guide also takes snippets of knowledge and code from all over the internet. I suggest reading the below links if you have any errors, want to customise the above or just learn more.
 
 * https://visualgdb.com/tutorials/raspberry/qt/embedded/
 * https://forum.qt.io/topic/68381/cross-compile-qt-windows-to-raspberry-3
