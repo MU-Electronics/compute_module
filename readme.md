@@ -6,6 +6,29 @@ QuePi is a project started by the Electronics Section at The University of Manch
 
 QuePi was developed to provided a base high level embedded platform for development of prototypes to be used in teaching and research.
 
+## Documentation Content
+
+### Development PC setup guides
+
+* Installing Cygwin
+
+#### Cross compiling setups guides
+
+* [Windows]()
+* MacOs
+
+### Raspbian setup for product products
+
+* Boot to application guide
+* Setting up ethernet
+* Setting up LCD
+* Setting up SSH
+* Installing WirePi for GPIO control
+
+
+
+## Hardware Designs
+
 The QuePi project uses the Raspberry Pi compute module 3 for the embedded processor and Qt as the software framework. Schematic and PCB designs have been created (using Altium Designer), these designs can be used as a starting point for all high level embedded projects; Download the design projects below
 
 * Altium project (CAM1, DISP1, All GPIO, Input Regulation, HDMI, Ethernet, Single USB)
@@ -15,7 +38,26 @@ The QuePi project uses the Raspberry Pi compute module 3 for the embedded proces
 
 * Other configurations to follow
 
-This project as provide up to date compiled Qt binaries for the CM3 which allow you to jump straight into developing the program. The binaries are compressed for storage reasons, free programs such as 7zip etc can uncompressed the binaries stored as tar.gz. These can be downloaded below:
+## Software 
+
+One of the largest parts of developing new prototypes is time spent in software development. To speed up this process QuePi aims at supporting every aspect of your development.
+
+### Boiler plate projects
+
+There are two boiler plate project templates downloadable, 
+
+* Terminal applications
+* GUI applications 
+
+These help by provided a recommend project folder and application structure.
+
+### Vender
+
+The vendor repo located here provided thirdparty and QuePi libraries that help with everything from reading ADCs to automatic program updater. 
+
+### Qt
+
+Compiled Qt binaries for the CM3 which allows you to jump straight into developing the program. The binaries are compressed for storage reasons, free programs such as 7zip etc can uncompressed the binaries stored as tar.gz. These can be downloaded below:
 
 * Qt 5.9, with hardware acceleration << 2nd in queue to be provided
 * Qt 5.9, no hardware acceleration << 3rd in queue to be provided
