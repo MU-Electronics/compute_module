@@ -20,7 +20,7 @@ QuePi was developed to provided a base high level embedded platform for developm
 ### Raspbian setup for product products
 
 * Boot to application guide
-* Setting up ethernet
+* Setting up Ethernet
 * Setting up LCD
 * Setting up SSH
 * Installing WirePi for GPIO control
