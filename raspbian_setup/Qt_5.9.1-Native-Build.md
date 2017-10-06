@@ -6,6 +6,12 @@ NOTE: The build proccess will take a long time and the PI/broadcom IC will get v
 
 ## Download Qt
 
+Download Qt 5.9.1 to pi user's home
+
+```bash
+wget https://download.qt.io/archive/qt/5.9/5.9.1/single/qt-everywhere-opensource-src-5.9.1.zip
+```
+
 ## Unzip Qt
 
 ## Make build folder
@@ -55,11 +61,17 @@ As the Qt build is designed to be ran on a minimal version of rasperbian with no
 The termninal output should contain the below
 
 > QPA backends:
+
 >  DirectFB ............................... no
+
 >  EGLFS .................................. yes
+
 >   EGLFS details:
+
 >   {LOTS OF OPTIONS}
+
 >   EGLFS Rasberry Pi .................... yes
+
 
 Taking note of EGLFS = yes and EGLFS Rasberry Pi = yes
 
