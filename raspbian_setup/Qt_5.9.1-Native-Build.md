@@ -14,7 +14,26 @@ wget https://download.qt.io/archive/qt/5.9/5.9.1/single/qt-everywhere-opensource
 
 ## Unzip Qt
 
+Install unzip library
+
+```bash
+sudo apt-get install unzip
+```
+
+Unzip the Qt source
+
+``` bash
+unzip qt-everywhere-opensource-src-5.9.1.zip
+```
+
 ## Make build folder
+
+Next make a folder to build Qt from
+
+```bash
+mkdir native-build
+cd native-build
+```
 
 ## Install dependances
 
@@ -60,18 +79,14 @@ As the Qt build is designed to be ran on a minimal version of rasperbian with no
 
 The termninal output should contain the below
 
-> QPA backends:
-
->  DirectFB ............................... no
-
->  EGLFS .................................. yes
-
->   EGLFS details:
-
->   {LOTS OF OPTIONS}
-
->   EGLFS Rasberry Pi .................... yes
-
+```
+QPA backends:
+ DirectFB ............................... no
+ EGLFS .................................. yes
+  EGLFS details:
+  {LOTS OF OPTIONS}
+  EGLFS Rasberry Pi .................... yes
+```
 
 Taking note of EGLFS = yes and EGLFS Rasberry Pi = yes
 
