@@ -40,7 +40,23 @@
     screen -r
     ```
     
+    If you have multiple screens running you many have to speicif the ID, for example if the responce from the terminal is
+    
+    ```bash
+    10508.pts-0.mint (09/10/2018 11:58:45 AM)        (Detached)
+    3451.pts-0.mint (09/10/2018 10:09:05 AM)        (Detached)
+    ```
+    
+    Then to enter screen 10508 you would run
+    
+    ```bash 
+    screen -r 10508
+    ```
+    
+    
     ## Installation
+    
+    @todo
     
     ## Furture reading
     
