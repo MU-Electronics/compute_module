@@ -4,6 +4,16 @@ This guide shows how to compile Qt 5.9.1 from source directly on the compute mod
 
 NOTE: The build proccess will take a long time and the PI/broadcom IC will get very hot to i suggest a fan over the top of the module espcially when using multi-core build.
 
+NOTE: It is highly suggested that you use screen during the below proccess when performing over SSH. This means if the SSH link fails the proccesses will continue in the background. Upon reconnecting oyu can then re enter the screen to see the progress. 
+
+## Screen
+
+Not required but suggested over ssh
+
+```bash
+screen
+```
+
 ## Download Qt
 
 Download Qt 5.9.1 to pi user's home
@@ -12,7 +22,19 @@ Download Qt 5.9.1 to pi user's home
 wget https://download.qt.io/archive/qt/5.9/5.9.1/single/qt-everywhere-opensource-src-5.9.1.zip
 ```
 
+You can detach the screen by running the below.
+
+```
+Ctrl-A” and “d“.
+```
+
 ## Unzip Qt
+
+If you disconnected from the screen in the previous process run the below to re-enter the screen
+
+```bash
+screen -r
+```
 
 Install unzip library
 
