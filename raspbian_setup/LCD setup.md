@@ -27,7 +27,7 @@ sudo su
 Run 
 
 ```
-sudo wget https://goo.gl/iiVxuA -O /boot/dt-blob.bin
+sudo wget --no-check-certificate https://goo.gl/iiVxuA -O /boot/dt-blob.bin
 ```
 
 
