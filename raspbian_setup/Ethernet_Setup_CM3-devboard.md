@@ -38,7 +38,7 @@ nano /boot/config.txt
 ```
 Then add to the top of the file
 ```
-dtoverlay=enc28j60 
+dtoverlay=enc28j60,int_pin=34 
 ```
 
 #### Set static mac address (iface eth0 inet manual)
