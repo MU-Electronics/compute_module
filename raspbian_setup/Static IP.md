@@ -10,7 +10,7 @@
   Add the below
   ```
   interface eth0
-  static ip_address=130.88.237.42/16
+  static ip_address=130.88.237.42/24
   static routers=130.88.237.250
   static domain_name_servers=130.88.13.7
   static broadcast=130.88.237.250
