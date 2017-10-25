@@ -48,7 +48,7 @@ Note: The number at the end of /dev/sdd{number} is just a partition on the SD ca
 
 ### Copy SD card to img
 
-Now we have the location we can create the img, run the below in the terminal. 
+Now we have the location we can create the img, run the below in the terminal.  This command will take along time to complete and has no progress bar, so just sit back and relaxe. 
 
 Remember to replace "sdd" with your found sd card location from above.
 
