@@ -46,7 +46,7 @@ As can be seen there are two addtional records /dev/sdd1 and /dev/sdd2. Hence "*
 
 Note: The number at the end of /dev/sdd{number} is just a partition on the SD card. For raspberry pi there will be two.
 
-### Find the SD Card
+### Copy SD card to img
 
 Now we have the location we can create the img, run the below in the terminal. 
 
