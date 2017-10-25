@@ -42,13 +42,21 @@ tmpfs           789M   48K  789M   1% /run/user/1000
 /dev/sdd1        42M   21M   21M  51% /media/electronics/boot
 ```
 
-As can be seen there are two addtional records /dev/sdd1 and /dev/sdd2. Hence /dev/sdd is the location of the SD card.
+As can be seen there are two addtional records /dev/sdd1 and /dev/sdd2. Hence "**/dev/sdd**" is the location of the SD card.
 
 Note: The number at the end of /dev/sdd{number} is just a partition on the SD card. For raspberry pi there will be two.
 
 ### Find the SD Card
 
-Now we have the location we can create the img
+Now we have the location we can create the img, run the below in the terminal. 
+
+Remember to replace "sdd" with your found sd card location from above.
+
+You can also change "~/quepi.img" with any location and name you wish
+
+```bash
+sudo dd if=/dev/sdd of=~/quepi.img
+```
 
 
 ## Resize file structure
@@ -62,3 +70,36 @@ This proccess is also required if you want to put an img from a 32GB SD card ont
 @todo
 
 ## Restore the SD card img
+
+To restore the img i **highly** reccomend using Etcher, its cross platform and super easy to use.
+
+If not them follow the below to use the terminal.
+
+### Unmount SD card
+
+First un mount the SD card be the following, remember to replace /dev/sdd with your sd card location found above.
+
+```bash
+sudo umount /dev/sdd1
+sudo umount /dev/sdd2
+```
+
+### Restore img
+
+Run the below with you img path and sd card location
+
+```bash
+sudo dd bs=4M if=~/quepi.img of=/dev/sdd
+```
+
+If the above fails them replace 4M with 1M, this will take longer but is more reliable. Although 4M has never failed for me.
+
+### Flush
+
+Once the above has finished to ensure everything has actually finished run the below command.
+
+```bash
+sudo sync
+```
+
+You can now unplug your sd card.
